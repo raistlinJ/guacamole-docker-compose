@@ -93,7 +93,7 @@ services:
   # guacd
   guacd:
     container_name: guacd_compose
-    image: guacamole/guacd
+    image: raistlinj_guacd
     networks:
       guacnetwork_compose:
     restart: always
@@ -108,7 +108,7 @@ services:
       POSTGRES_DB: guacamole_db
       POSTGRES_PASSWORD: ChooseYourOwnPasswordHere1234
       POSTGRES_USER: guacamole_user
-    image: postgres
+    image: postgres:latest
     networks:
       guacnetwork_compose:
     restart: always
@@ -128,7 +128,7 @@ services:
       POSTGRES_HOSTNAME: postgres
       POSTGRES_PASSWORD: ChooseYourOwnPasswordHere1234
       POSTGRES_USER: guacamole_user
-    image: guacamole/guacamole
+    image: raistlinj_guacamole
     volumes: 
     - ./guacamole/conf/:/tmp/guacconf/
     links:
@@ -166,7 +166,7 @@ services:
    networks:
      guacnetwork_compose:
    # install openssl, create self-signed certificate and run nginx
-   #command: /bin/bash -c "apt-get -y update && apt-get -y install openssl && openssl req -nodes -newkey rsa:2048 -new -x509 -keyout /etc/nginx/ssl/self-ssl.key -out /etc/nginx/ssl/self.cert -subj '/C=DE/ST=BY/L=Hintertupfing/O=Dorfwirt/OU=Theke/CN=www.createyourown.domain/emailAddress=docker@createyourown.domain' && cp -f -s /etc/nginx/conf.d/mysite.template /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+   # command: /bin/bash -c "apt-get -y update && apt-get -y install openssl && openssl req -nodes -newkey rsa:2048 -new -x509 -keyout /etc/nginx/ssl/self-ssl.key -out /etc/nginx/ssl/self.cert -subj '/C=DE/ST=BY/L=Hintertupfing/O=Dorfwirt/OU=Theke/CN=www.createyourown.domain/emailAddress=docker@createyourown.domain' && cp -f -s /etc/nginx/conf.d/mysite.template /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
    command: /bin/bash -c "apt-get -y update && apt-get -y install openssl && cp -f -s /etc/nginx/conf.d/mysite.template /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
 # nginx-debug-mode
 #   command: /bin/bash -c "apt-get -y update && apt-get -y install openssl && openssl req -nodes -newkey rsa:2048 -new -x509 -keyout /etc/nginx/ssl/self-ssl.key -out /etc/nginx/ssl/self.cert -subj '/C=DE/ST=BY/L=Munich/O=DockerContainer/OU=nginx/CN=www.example.com/emailAddress=docker@somedomain.com' && cp -f -s /etc/nginx/conf.d/mysite.template /etc/nginx/conf.d/default.conf && nginx-debug -g 'daemon off;'"
