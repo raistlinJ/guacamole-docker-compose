@@ -93,7 +93,7 @@ services:
   # guacd
   guacd:
     container_name: guacd_compose
-    image: raistlinj_guacd
+    image: guacamole/guacd
     networks:
       guacnetwork_compose:
     restart: always
@@ -128,7 +128,7 @@ services:
       POSTGRES_HOSTNAME: postgres
       POSTGRES_PASSWORD: ChooseYourOwnPasswordHere1234
       POSTGRES_USER: guacamole_user
-    image: raistlinj_guacamole
+    image: guacamole/guacamole
     volumes: 
     - ./guacamole/conf/:/tmp/guacconf/
     links:
