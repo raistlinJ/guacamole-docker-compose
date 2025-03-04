@@ -1,0 +1,34 @@
+To customize the image on the login screen,
+1. mount a volume in the guacamole container that maps to ./guacamole/conf/:/tmp/guacconf/
+2. use the following command to login interactively into the guacamole_compose container:
+sudo docker exec -it guacamole_compose /bin/bash
+cp guacamole.war /tmp/guacconf
+exit
+3. Unzip the guacamole.war on the host
+cd guacamole/conf
+mkdir temp_dir
+cp guacamole.war
+unzip guacamole.war
+
+1. Replace the following images:
+-guac-tricolor.png
+-guac-mono-192.png (192x192)
+-logo-144.png (144x144)
+-logo-64.png (144x144)
+
+2. Update the text that shows on the login screen by changing the "title" in this file:
+-translations/en.json
+
+3. Update the size of the logo and text by changing the following lines in both of these files:
+-guacamole.css
+-guacamole.min.css
+.login-ui .login-dialog .logo {
+...
+   width: 9em;
+   height: 9em;
+   background-size: 9em 9em;
+   -moz-background-size: 9em 9em;
+   -webkit-background-size: 9em 9em;
+   -khtml-background-size: 9em 9em;
+   ...
+}
