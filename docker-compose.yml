@@ -160,6 +160,8 @@ services:
       args:
         NAMESERVER_IP: 172.17.0.1
         NAMESERVER_PORT: 10291
+    volumes:
+      - ./res-client-vmcontrol/app/templates:/app/templates
     ports:
       - "5000:5000"
     environment:
