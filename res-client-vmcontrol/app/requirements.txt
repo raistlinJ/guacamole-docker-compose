@@ -1,0 +1,10 @@
+Flask==3.0.0
+flask_limiter==3.10.1
+configparser
+xmltodict
+jinja2
+requests>=2.22.0
+simplejson>=3.16.0
+guacapy==0.10
+Pyro5==5.15
+waitress

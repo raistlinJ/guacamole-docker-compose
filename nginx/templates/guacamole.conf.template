@@ -1,12 +1,13 @@
 ### BBB
 server {
     listen       443 ssl;
+    http2  on;
     server_name  localhost;
 
         ssl_certificate /etc/nginx/ssl/self.cert;
         ssl_certificate_key /etc/nginx/ssl/self-ssl.key;
 
-        ssl_protocols TLSv1.2;
+        ssl_protocols TLSv1.2 TLSv1.3;
         ssl_prefer_server_ciphers on;
         ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH";
         ssl_ecdh_curve secp384r1;
@@ -14,27 +15,8 @@ server {
         ssl_session_tickets off;
         ssl_stapling off;
         ssl_stapling_verify off;
-#        resolver 8.8.8.8 8.8.4.4 valid=300s;
-#        resolver_timeout 5s;
-
-    #charset koi8-r;
-    #access_log  /var/log/nginx/host.access.log  main;
 
     location / {
-    proxy_pass http://11.0.0.1:5001;
-    proxy_buffering off;
-    proxy_http_version 1.1;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection $http_connection;
-    proxy_cookie_path /nginx_twoframe/ /nginx_twoframe/;
-    access_log off;
-    # allow large uploads (default=1m)
-    # 4096m = 4GByte
-    client_max_body_size 4096m;
-}
-
-    location ^~ /remote/ {
     proxy_pass http://guacamole:8080/guacamole/;
     proxy_buffering off;
     proxy_http_version 1.1;
@@ -47,13 +29,7 @@ server {
     # 4096m = 4GByte
     client_max_body_size 4096m;
 }
-    location ^~ /control/ {
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header Host $host;
-    proxy_pass http://app:5000/;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-}
+
     #error_page  404              /404.html;
 
     # redirect server error pages to the static page /50x.html
@@ -62,4 +38,5 @@ server {
     location = /50x.html {
         root   /usr/share/nginx/html;
     }
+
 }
