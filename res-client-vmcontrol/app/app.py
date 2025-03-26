@@ -15,12 +15,14 @@ app = Flask(__name__)
 
 nameserver_ip = os.environ.get('ENAMESERVER_IP')
 tnameserver_port = os.environ.get('ENAMESERVER_PORT')
+username = os.environ.get('EUSERNAME')
+password = os.environ.get('EPASSWORD')
 
 if (nameserver_ip == None or nameserver_ip == "") and (tnameserver_port == None or tnameserver_port == ""):
     print("Usage: nameserver_ip nameserver_port")
     exit(-1)
 
-print(" 1st: " + str(nameserver_ip) + " 2nd: " + str(tnameserver_port))
+print(" NAMESERVERIP: " + str(nameserver_ip) + " NAMESERVERPORT: " + str(tnameserver_port))
 
 if isinstance(tnameserver_port,str):
     nameserver_port = int(tnameserver_port)
@@ -68,6 +70,7 @@ def run_command():
         ns = Pyro5.api.locate_ns(nameserver_ip,nameserver_port)
         
         pEngine = Pyro5.api.Proxy(ns.lookup("engine"))
+        pEngine.setRemoteCreds(True, resusername, respassword)
         pUserPool = Pyro5.api.Proxy(ns.lookup("userpool"))
         
         res = pEngine.execute("vm-manage mgrstatus")
@@ -101,7 +104,7 @@ def run_command():
                         time.sleep(.1)
                         logging.debug("Waiting for experiment start to complete...")
                         res = pEngine.execute("experiment status")
-                output = cmd + " Completed\n"
+                output += cmd + " Completed\n"
 
         elif command == "stop":
             for cloneVMName in cloneVMNames:
@@ -115,7 +118,7 @@ def run_command():
                         time.sleep(.1)
                         logging.debug("Waiting for experiment stop to complete...")
                         res = pEngine.execute("experiment status")
-                output = cmd + " Completed\n"
+                output += cmd + " Completed\n"
 
         elif command == "status":
             for cloneVMName in cloneVMNames:
@@ -156,6 +159,7 @@ def run_command():
         return jsonify({"output": output}), 200
 
     except Exception as e:
+        print({"error": str(e)})
         return jsonify({"error": str(e)}), 500
         #return jsonify({"error": str("The config name is incorrect or it does not exist")}), 500
 
