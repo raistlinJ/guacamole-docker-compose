@@ -15,8 +15,8 @@ app = Flask(__name__)
 
 nameserver_ip = os.environ.get('ENAMESERVER_IP')
 tnameserver_port = os.environ.get('ENAMESERVER_PORT')
-username = os.environ.get('EUSERNAME')
-password = os.environ.get('EPASSWORD')
+resusername = os.environ.get('EUSERNAME')
+respassword = os.environ.get('EPASSWORD')
 
 if (nameserver_ip == None or nameserver_ip == "") and (tnameserver_port == None or tnameserver_port == ""):
     print("Usage: nameserver_ip nameserver_port")
