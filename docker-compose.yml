@@ -136,6 +136,12 @@ services:
       POSTGRES_HOSTNAME: postgres
       POSTGRES_PASSWORD: 'ChooseYourOwnPasswordHere1234'
       POSTGRES_USER: guacamole_user
+      OPENID_AUTHORIZATION_ENDPOINT: '<REALM_URL>/protocol/openid-connect/auth'
+      OPENID_JWKS_ENDPOINT: '<REALM_URL>/protocol/openid-connect/certs'
+      OPENID_ISSUER: '<REALM_URLL>'
+      OPENID_CLIENT_ID: '<CLIENT_ID>'
+      OPENID_REDIRECT_URI: '<REDIRECT_URL>'
+      OPENID_USERNAME_CLAIM_TYPE: 'preferred_username'
     image: guacamole/guacamole:1.5.5
     volumes: 
     - ./guacamole/conf/:/tmp/guacconf/
